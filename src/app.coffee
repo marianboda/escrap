@@ -1,12 +1,17 @@
 express = require 'express'
 app = express()
 React = require 'react'
+R = React.DOM
 
 rApp = React.createClass
   render: ->
-    React.DOM.div {},
-      React.DOM.h1 {}, 'app'
-      React.DOM.p {}, 'some text'
+    R.html {},
+      R.head {},
+        R.title {}, 'Scrap'
+      R.body {},
+        R.div {},
+          R.h1 {}, 'This is a React component rendered on server'
+          R.p {}, 'some text'
 
 app.get '/', (req, res) ->
   res.send('Hello World')
