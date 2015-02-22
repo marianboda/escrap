@@ -1,21 +1,24 @@
 express = require 'express'
-app = express()
 React = require 'react'
-R = React.DOM
-
 App = require './App'
 
-app.get '/', (req, res) ->
-  res.send('Hello World')
+R = React.DOM
+app = express()
+router = express.Router()
 
-app.get '/whatup', (req, res) ->
-  # a = Object.keys(req.query).map (i) -> "#{i} = #{req.query[i]}"
-  # res.send a.join "<br>\n"
+port = process.env.PORT || 3002
 
-  res.send React.renderToString React.createElement(App)
+router.get '/*', (req, res) ->
+  res.send React.renderToString React.createElement(App, {title: 'Escrap'})
 
-server = app.listen 3002, ->
-  host = server.address().address
-  port = server.address().port
+router.get '/whatup', (req, res) ->
+  a = Object.keys(req.query).map (i) -> "#{i} = #{req.query[i]}"
+  res.send a.join "<br>\n"
 
-  console.log 'App listening at %s : %s', host, port
+app.use '/api', require('./api/ApiRouter')
+app.use '/', router
+
+
+server = app.listen port, ->
+  console.log 'App listening at %s : %s',
+    server.address().address, server.address().port

@@ -5,10 +5,11 @@ App = React.createClass
   render: ->
     R.html {},
       R.head {},
-        R.title {}, 'Scrap'
+        R.title {}, @props.title || '--'
       R.body {},
         R.div {},
-          R.h1 {}, 'This is a React component rendered on server'
+          R.a {href: '/scan'}, 'SCAN'
+          R.h1 {}, @props.title
           R.p {}, 'some text'
 
 module.exports = App

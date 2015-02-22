@@ -2,7 +2,7 @@
   "name": "escrap",
   "version": "0.0.1",
   "description": "Web scraping project using express",
-  "main": "index.js",
+  "main": "src/server.coffee",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -22,6 +22,7 @@
     "express": "^4.11.2",
     "gulp": "^3.8.11",
     "react": "^0.12.2",
+    "react-router": "^0.12.0",
     "request": "^2.53.0"
   }
 }
