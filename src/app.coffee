@@ -5,6 +5,7 @@ App = React.createClass
   render: ->
     R.html {},
       R.head {},
+        R.script {src: 'static/js/scripts.js'}
         R.title {}, @props.title || '--'
       R.body {},
         R.div {},
