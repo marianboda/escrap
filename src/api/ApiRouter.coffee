@@ -11,4 +11,9 @@ apiRouter.get '/posts', (req, res, next) ->
   siren.getPosts().then (data) ->
     res.json data
 
+apiRouter.get '/posts/:page', (req, res, next) ->
+  page = req.params.page || 1
+  siren.getPosts(page).then (data) ->
+    res.json data
+
 module.exports = apiRouter
