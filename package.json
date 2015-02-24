@@ -4,7 +4,9 @@
   "description": "Web scraping project using express",
   "main": "src/server.coffee",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --config webpack.config.js --progress --profile --colors",
+    "watch": "webpack --config webpack.config.js --progress --colors --watch"
   },
   "repository": {
     "type": "git",
@@ -22,10 +24,14 @@
     "express": "^4.11.2",
     "gulp": "^3.8.11",
     "lodash": "^3.3.0",
+    "q": "^1.2.0",
     "react": "^0.12.2",
     "react-router": "^0.12.0",
     "reflux": "^0.2.5",
     "request": "^2.53.0",
     "webpack": "^1.5.3"
+  },
+  "devDependencies": {
+    "coffee-loader": "^0.7.2"
   }
 }
