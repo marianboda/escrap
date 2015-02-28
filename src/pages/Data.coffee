@@ -1,9 +1,15 @@
 React = require 'react'
+Reflux = require 'reflux'
 R = React.DOM
 postStore = require '../PostStore'
 
 page = React.createClass
   displayName: 'DataPage'
+  mixins: [Reflux.ListenerMixin]
+  
+  componentDidMount: ->
+    @listenTo postStore, -> @forceUpdate()
+
   render: ->
     console.log 'rendering data page'
     R.div {},
