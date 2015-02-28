@@ -1,19 +1,24 @@
 React = require 'react'
 R = React.DOM
+Router = require 'react-router'
+Route = Router.Route
+Link = Router.Link
 
 postStore = require './PostStore'
 
 App = React.createClass
+  displayName: 'App'
   render: ->
+
     R.html {},
       R.head {},
         R.script {src: 'static/js/bundle.js'}
         R.title {}, @props.title || '--'
       R.body {},
         R.div {},
-          R.a {href: '/scan'}, 'SCAN'
-          R.h1 {}, @props.title
-          R.ul {},
-            R.li {}, i.name for i in postStore.posts
+          React.createElement Link, {to: 'scan'}, 'SCAN'
+          R.span {}, ' '
+          React.createElement Link, {to: 'data'}, 'DATA'
+        React.createElement Router.RouteHandler, React.__spread({}, @props)
 
 module.exports = App

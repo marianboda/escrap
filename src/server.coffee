@@ -6,14 +6,20 @@ R = React.DOM
 app = express()
 router = express.Router()
 
+reactRouter = require 'react-router'
+
+routes = require './routes'
+
 port = process.env.PORT || 3002
 
 router.get '/*', (req, res) ->
-  res.send React.renderToString React.createElement(App, {title: 'Escrap'})
+  reactRouter.run routes, req.path, (Handler) ->
+    # console.log Handler, state
+    # console.log req.path
+    res.send React.renderToString(React.createElement(Handler, {path: req.path}))
+    # React.render React.createElement(Handler, {params: state.params}), document
 
-router.get '/whatup', (req, res) ->
-  a = Object.keys(req.query).map (i) -> "#{i} = #{req.query[i]}"
-  res.send a.join "<br>\n"
+
 
 app.use '/static', express.static(__dirname + '/../static')
 app.use '/api', require('./api/ApiRouter')

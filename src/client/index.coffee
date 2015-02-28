@@ -1,4 +1,6 @@
 React = require 'react'
-Reflux = require 'reflux'
+Router = require 'react-router'
+routes = require '../routes'
 
-console.log ':)---'
+Router.run routes, Router.HistoryLocation, (Handler) ->
+  React.render(React.createElement(Handler, {path: window.location.pathname}), document)
