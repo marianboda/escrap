@@ -19,9 +19,8 @@ router.get '/*', (req, res) ->
     res.send React.renderToString(React.createElement(Handler, {path: req.path}))
     # React.render React.createElement(Handler, {params: state.params}), document
 
-
-
 app.use '/static', express.static(__dirname + '/../static')
+app.use '/favicon.ico', express.static(__dirname + '/../static/favicon.ico')
 app.use '/api', require('./api/ApiRouter')
 app.use '/', router
 

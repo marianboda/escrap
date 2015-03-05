@@ -2,11 +2,15 @@ _ = require 'lodash'
 request = require 'request'
 cheerio = require 'cheerio'
 apiRouter = require('express').Router()
+I = require 'immutable'
+
 q = require 'q'
 
 console.log 'is'
 
 class SirensSound
+  posts: new I.Map()
+
   getPosts: (page = 1) ->
     url = 'http://www.thesirenssound.com/'
     defer = q.defer()
@@ -14,7 +18,7 @@ class SirensSound
     if page > 1
       url += "page/#{page}/"
     console.log 'somethin'
-    request url, (err, response, html) ->
+    request url, (err, response, html) =>
 
       a = []
       if !err
@@ -27,6 +31,8 @@ class SirensSound
           post.name = $('h2 a',i).html()
           post.link = $('h2 a',i).attr('href')
           post
+
+        @posts.set a.id, a
         defer.resolve a
       defer.reject err
 
