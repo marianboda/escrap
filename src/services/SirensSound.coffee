@@ -30,6 +30,7 @@ class SirensSound
           post.id = i.attribs.id
           post.name = $('h2 a',i).html()
           post.link = $('h2 a',i).attr('href')
+          post.content = $(i).html()
           post
 
         @posts.set a.id, a
