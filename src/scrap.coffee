@@ -36,4 +36,4 @@ start = ->
       page++
       setVar 'lastPageProcessed', page
       console.log "records: #{data.length}"
-      start()
+      setTimeout( start, 1)
