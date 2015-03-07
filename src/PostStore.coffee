@@ -5,6 +5,7 @@ he = require 'he'
 
 store =
   posts: [{name: '---'}, {name: '--'}]
+  selectedPost: null
 
   getPosts: (page = 1) ->
     url = '/api/posts'
@@ -37,6 +38,11 @@ store =
       console.log 'scanning'
       @posts.push {name: 'this pushed ' + @posts.length}
       @getPosts()
+      @trigger()
+
+    @listenTo Actions.postSelected, (post) =>
+      console.log post
+      @selectedPost = post
       @trigger()
 
 module.exports = Reflux.createStore store

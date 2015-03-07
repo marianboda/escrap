@@ -15,16 +15,23 @@ page = React.createClass
     console.log 'button pressed'
     Actions.scan()
 
-  onItemClick: (event) ->
-    console.log event.target.innerHTML
-    # Actions.postSelected()
+  onItemClick: (e) ->
+    target = e.dispatchMarker.split('.').pop()[1..]
+    Actions.postSelected(target)
 
   render: ->
     console.log 'rendering scanning page'
-    R.div {},
+    contStyle =
+      display: 'flex'
+      flexDirection: 'column'
+
+    R.div {style: contStyle},
       R.p {}, 'text from Scan Page'
-      R.button {onClick: @scanButtonHandler}, 'UPDATE'
-      R.ul {className: 'postList'},
-        R.li {key: i._id, onClick: @onItemClick}, i.name for i in postStore.posts
+      R.div {},
+        R.button {onClick: @scanButtonHandler}, 'UPDATE'
+      R.div {style: {display: 'flex', flexDirection: 'row'}},
+        R.ul {className: 'postList'},
+          R.li {key: i._id, onClick: @onItemClick}, i.name for i in postStore.posts
+        R.div {}, postStore.selectedPost
 
 module.exports = page
