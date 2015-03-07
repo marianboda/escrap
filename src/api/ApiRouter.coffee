@@ -10,11 +10,13 @@ apiRouter.get '/', (req, res, next) ->
   res.send('inside api Router')
 
 apiRouter.get '/posts', (req, res, next) ->
-  # siren.getPosts().then (data) ->
-  #   res.json data
   DataService.getPosts().then (data) ->
     res.json data
 
+apiRouter.get '/post/:id', (req, res, next) ->
+  res.json {} unless req.params.id?
+  DataService.getPost(req.params.id).then (data) ->
+    res.json data
 
 
 apiRouter.get '/posts/:page', (req, res, next) ->
