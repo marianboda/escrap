@@ -25,13 +25,17 @@ page = React.createClass
       display: 'flex'
       flexDirection: 'column'
 
+    postContent = if postStore.selectedPost?.content? then postStore.selectedPost.content else ''
+
     R.div {style: contStyle},
       R.p {}, 'text from Scan Page'
       R.div {},
         R.button {onClick: @scanButtonHandler}, 'UPDATE'
       R.div {style: {display: 'flex', flexDirection: 'row'}},
-        R.ul {className: 'postList'},
+        R.ul {className: 'postList', style: {flexShrink: 0}},
           R.li {key: i._id, onClick: @onItemClick}, i.name for i in postStore.posts
-        R.div {}, postStore.selectedPost
+        R.div {},
+          R.div {dangerouslySetInnerHTML: {__html: postContent}}
+
 
 module.exports = page
