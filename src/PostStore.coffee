@@ -10,18 +10,17 @@ store =
 
   getPost: (id) ->
     url = "/api/post/#{id}"
-    request url, (res) =>
+    request url, (err, res) =>
+      return console.error(err) if err?
       post = JSON.parse res.text
-      if @selectedPostId is post._id
+      if @selectedPostId is post.id
         @selectedPost = post
         @trigger()
 
   getPosts: (page = 1) ->
     url = '/api/posts'
     url += "/#{page}" if page > 1
-    # console.log request
-    request url, (res) =>
-      # console.log JSON.parse(res.text)
+    request url, (err, res) =>
       @posts = JSON.parse(res.text)
       post.name = he.decode(post.name) for post in @posts
 

@@ -1,39 +1,41 @@
 async = require 'async'
 sirens = require './services/SirensSound'
+config = require './config'
 
 Datastore = require 'nedb'
-db = {}
-db.vars = new Datastore {filename: './vars.nedb'}
-db.posts = new Datastore {filename: './db.nedb'}
+SQLite = require 'sqlite3'
+db = new SQLite.Database "#{config.DB_PATH}/db.sqlite"
 
-db.posts.ensureIndex {fieldName: 'id', unique: true}
-db.vars.ensureIndex {fieldName: 'var', unique: true}
-
-setVar = (name, value) ->
-  db.vars.update {var: name}, {$set: {value: value}}
+# setVar = (name, value) ->
+#   db.run "UPDATE vars SET value='#{value}' WHERE var='#{name}'"
 
 page = 1
 
-async.parallel [
-  (cb) -> db.posts.loadDatabase cb
-  (cb) -> db.vars.loadDatabase (err) ->
-    db.vars.find {var: 'lastPageProcessed'}, (err, docs) ->
-      if docs.length is 0
-        db.vars.insert {var: 'lastPageProcessed', value: 1}, (err) -> cb err
-      else
-        page = docs[0].value
-        cb err
-], (err) ->
-  console.log 'all done'
-  start()
+cols = [
+  'id'
+  'name'
+  'link'
+  'content'
+]
 
 start = ->
   console.log 'starting.. page: ', page
   sirens.getPosts(page).then (data) ->
     return if data.length is 0
-    db.posts.insert data, (err) ->
+
+    valuesSet = data.map(
+      (post) ->
+        postString = cols.map(
+          (key) -> if key is 'id' then (post.id).replace('post-','') else "'#{post[key].replace("'", "''")}'"
+        ).join(', ')
+        "(#{postString})"
+    ).join(', ')
+
+    db.run "INSERT INTO posts (#{cols.join(',')}) VALUES #{valuesSet}", (err) ->
       console.error err if err?
       page++
-      setVar 'lastPageProcessed', page
+      # setVar 'lastPageProcessed', page
       console.log "records: #{data.length}"
       setTimeout( start, 1)
+
+start()

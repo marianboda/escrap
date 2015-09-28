@@ -15,8 +15,7 @@ page = React.createClass
     console.log 'button pressed'
     Actions.scan()
 
-  onItemClick: (e) ->
-    target = e.dispatchMarker.split('.').pop()[1..]
+  onItemClick: (target) ->
     Actions.postSelected(target)
 
   render: ->
@@ -33,7 +32,7 @@ page = React.createClass
         R.button {onClick: @scanButtonHandler}, 'UPDATE'
       R.div {style: {display: 'flex', flexDirection: 'row'}},
         R.ul {className: 'postList', style: {flexShrink: 0}},
-          R.li {key: i._id, onClick: @onItemClick}, i.name for i in postStore.posts
+          R.li {key: i._id, onClick: do => id = i.id; => @onItemClick(id)}, i.name for i in postStore.posts
         R.div {},
           R.div {dangerouslySetInnerHTML: {__html: postContent}}
 
